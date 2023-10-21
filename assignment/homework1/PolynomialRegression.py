@@ -119,24 +119,17 @@ def main():
         train[0, i] = float(x)
         train[1, i] = float(y)
     for i in range(m):
-        x, y = input().split()
+        x = input()
         test[0, i] = float(x)
-        test[1, i] = float(y)
     x_train, y_train = train[0], train[1]
-    x_test, y_test = test[0], test[1]
+    x_test = test[0]
 
-    errors = []
-    for i in range(11):
-        p = PolynomialFeature(i)
-        model = LinearRegression()
-        model.fit(p.transform(x_train), y_train)
-        y_pred, std = model.predict(p.transform(x_test), return_std=True)
-        rmse = model.rmse(y_pred, y_test)
-        errors.append((rmse, i, std))
-    min_err = min(errors)
-    print(min_err[1])
-    print(min_err[2][0].round(6))
+    p = PolynomialFeature(3)
+    model = LinearRegression()
+    model.fit(p.transform(x_train), y_train)
+    y_pred = model.predict(p.transform(x_test))
+    for y in y_pred:
+        print(y)
 
 if __name__ == '__main__':
     main()
-    
